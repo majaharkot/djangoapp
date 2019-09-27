@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-# Create your views here.
+
 
 def index(request):
-    return HttpResponse("Witaj w aplikacji Pizza!")
+    # return HttpResponse("<h1>Witaj w aplikacji Pizza!</h1>")
+    return render(request, 'pizza/index.html')
+
+def komunikat(request):
+    # return HttpResponse("<h1>Komunikat!</h1>")
+    return render(request, 'pizza/komunikat.html')
