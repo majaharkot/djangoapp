@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Bar Pizza</title>
-</head>
-<body>
+{% extends 'szablon.html' %}
 
-<h1>Witaj w barze Pizza!</h1>
-<p>Koniecznie zapoznaj się z naszą ofertą!</p>
+{% block tytul %}Bar Pizza{% endblock tytul %}
 
-</body>
-</html>
+{% block naglowek %}Witaj w Barze Pizza!{% endblock naglowek %}
+
+{% block tresc %}
+<p>Oferta szeroka i wszechstronna.</p>
+{% endblock tresc %}
