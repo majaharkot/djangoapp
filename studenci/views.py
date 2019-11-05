@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from studenci.models import Miasto
 from studenci.models import Uczelnia
+from studenci.forms import UserLoginForm, UczelniaForm
 
 def index(request):
     return HttpResponse("<h1>Witaj wsród sudentów!</h1>")
@@ -29,13 +30,28 @@ def uczelnie(request):
     """Widok wyświetlający uczelnie i formularz ich dodawania"""
     if request.method == 'POST':
         nazwa = request.POST.get('nazwa', '')
-        if len(nazwa.strip()):
+        #if len(nazwa.strip()):
+        form = UczelniaForm
+        if form.is_valid():
             u = Uczelnia(nazwa=nazwa)
             u.save()
             messages.success(request, "Poprawnie dodano dane!")
         else:
             messages.error(request, "Niepoprawne dane!")
+    else:
+        form = UczelniaForm()
 
     uczelnie = Uczelnia.objects.all()
-    kontekst = {'uczelnie': uczelnie}
+    kontekst = {'uczelnie': uczelnie, 'form': form}
     return render(request, 'studenci/uczelnie.html', kontekst)
+
+def loguj_studenta(request):
+    """Widok wyświetlający formularz logowania"""
+    if request.method == 'POST':
+        pass
+    else:
+        form = UserLoginForm()
+
+    kontekst = {'form': form}
+    return render(request, 'studenci/login.html', kontekst)
+
