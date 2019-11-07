@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from studenci.models import Miasto
-from studenci.models import Uczelnia
-from studenci.forms import UserLoginForm, UczelniaForm
+from django.urls import reverse
+from studenci.models import Miasto, Uczelnia
+from studenci.forms import UserLoginForm, UczelniaForm, MiastoForm
 
 def index(request):
     return HttpResponse("<h1>Witaj wsród sudentów!</h1>")
@@ -13,27 +13,28 @@ def index(request):
 def miasta(request):
     """Widok wyświetlający miasta i formularz ich dodawania"""
     if request.method == 'POST':
-        nazwa = request.POST.get('nazwa', '')
-        kod = request.POST.get('kod', '')
-        if len(nazwa.strip()) and len(kod.strip()):
-            m = Miasto(nazwa=nazwa, kod=kod)
+        form = MiastoForm(request.POST)
+        if form.is_valid():
+            m = Miasto(nazwa=form.cleaned_data['nazwa'], kod=form.cleaned_data['kod'])
             m.save()
             messages.success(request, "Poprawnie dodano dane!")
         else:
             messages.error(request, "Niepoprawne dane!")
+            return redirect(reverse('studenci:miasta'))
+    else:
+        form = MiastoForm()
 
     miasta = Miasto.objects.all()
-    kontekst = {'miasta': miasta}
+    kontekst = {'miasta': miasta, 'form': form}
     return render(request, 'studenci/miasta.html', kontekst)
 
 def uczelnie(request):
     """Widok wyświetlający uczelnie i formularz ich dodawania"""
     if request.method == 'POST':
-        nazwa = request.POST.get('nazwa', '')
-        #if len(nazwa.strip()):
-        form = UczelniaForm
+        form = UczelniaForm(request.POST)
         if form.is_valid():
-            u = Uczelnia(nazwa=nazwa)
+            print(form.cleaned_data)
+            u = Uczelnia(nazwa=form.cleaned_data['nazwa'])
             u.save()
             messages.success(request, "Poprawnie dodano dane!")
         else:

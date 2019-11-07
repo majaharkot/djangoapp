@@ -13,3 +13,15 @@ class UczelniaForm(forms.Form):
         max_length=30,
         widget=forms.TextInput()
     )
+
+class MiastoForm(forms.Form):
+    nazwa = forms.CharField(
+        label="Nazwa miasta",
+        max_length=30,
+        widget=forms.TextInput()
+    )
+    kod = forms.CharField(
+        label="Kod pocztowy",
+        max_length=6,
+        widget=forms.TextInput()
+    )
