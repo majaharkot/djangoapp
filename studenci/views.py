@@ -18,9 +18,9 @@ def miasta(request):
             m = Miasto(nazwa=form.cleaned_data['nazwa'], kod=form.cleaned_data['kod'])
             m.save()
             messages.success(request, "Poprawnie dodano dane!")
+            return redirect(reverse('studenci:miasta'))
         else:
             messages.error(request, "Niepoprawne dane!")
-            return redirect(reverse('studenci:miasta'))
     else:
         form = MiastoForm()
 
